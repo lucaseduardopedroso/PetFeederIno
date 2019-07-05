@@ -91,7 +91,7 @@ buttonPress = kpd.getkey(); //qlqr botão
 
  if (buttonPress) { // se estiver pressionado
  Serial.print("ButtonPressed: ");
- Serial.println(apertatecla);
+ Serial.println(buttonPress);
  digitalWrite(LED, HIGH); // acende led
  void hcsr04(); // chama o ultrassom
  setFeedingTime(); // rotina de data e hora
