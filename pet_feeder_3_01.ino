@@ -86,11 +86,12 @@ boolean feed = true; // condition for alarm
  {
 
 lcd.setCursor(0,0); // lcd
-int buttonPress;
+char buttonPress;
 buttonPress = kpd.getkey(); //  //qlqr botão
 
  if (buttonPress) { // se estiver pressionado
  digitalWrite(LED, HIGH); // acende led
+ delay(100);
  hcsr04(); // chama o ultrassom
  setFeedingTime(); // rotina de data e hora
  digitalWrite(LED, LOW); // apaga o led
