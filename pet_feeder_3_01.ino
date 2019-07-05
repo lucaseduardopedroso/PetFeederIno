@@ -86,10 +86,10 @@ boolean feed = true; // condition for alarm
  {
 
 lcd.setCursor(0,0); // lcd
-int buttonPress;
+char buttonPress;
 buttonPress = digitalRead(keys[1][7]); // botao 3
 
- if (buttonPress==1) { // se estiver pressionado
+ if (buttonPress) { // se estiver pressionado
  digitalWrite(LED, HIGH); // acende led
  void hcsr04(); // chama o ultrassom
  setFeedingTime(); // rotina de data e hora
