@@ -24,6 +24,7 @@ int isfeeded = 0; // controle se alimentou ou não
 int is_on = 0;
 int feed_hour[] = {0,0};
 
+int t1, t2, t3, t4, t5, t6;
 
 const byte ROWS = 4;
 const byte COLS = 4;
@@ -91,7 +92,6 @@ boolean feed = true; // condition for alarm
 
 lcd.setCursor(0,0); // lcd
 char buttonPress;
-char button;
 buttonPress = kpd.getkey(); //  //qlqr botão
 
  if (buttonPress) { // se estiver pressionado
@@ -199,13 +199,15 @@ void hcsr04() {
 
 }
 
+// novo feeding time
 void feedingTime() {
+  char button;
   lcd.print("Feeding");
   int h, m;
   h = data.hour;
   m = data.minute;
 
-  if (buttonPress) {
+  if (button) {
 
 
   if(button == '1') {
