@@ -57,4 +57,10 @@ void loop(){
 	// Se funcionar coloca o LCD aqui
 
 
+	// Guardar dado na EEPROM aqui
+
+
+
+
+
 }
