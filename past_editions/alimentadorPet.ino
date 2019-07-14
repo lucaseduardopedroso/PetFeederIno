@@ -1,5 +1,5 @@
 #include <LiquidCrystal.h>
-#include "RTClib.h"  
+#include "RTClib.h"
 #include <Keypad.h>
 #include <Wire.h>
 #include <Servo.h>
@@ -31,7 +31,7 @@ Servo servo1;
 
 //----------configuração relogio-----------------
 RTC_DS1307 rtc;
-int seg1, min1, hor1; 
+int seg1, min1, hor1;
 
 
 //---------configuração teclado -----------------
@@ -118,33 +118,33 @@ void horarios(){
       lcd.clear();
       lcd.setCursor(0, 0);
       lcd.print("Informe horario ");                //pede para o usuario digitar a hora
-      lcd.setCursor(0, 1); 
+      lcd.setCursor(0, 1);
       lcd.print("#" + String(k) + " (hh:mm):");     //informa o formato que deve ser digitado a hora
-      
+
       valor = 0;                                   //reseta o valor da variavel temporal
 
 
       for (i = 1; i <= 2; i++){                   //entrada dos digitos da hora
          entrada = teclado.waitForKey();
          digitalWrite(buzzer, HIGH);
-         delay(tempoBuzz); 
-         digitalWrite(buzzer, LOW);       
+         delay(tempoBuzz);
+         digitalWrite(buzzer, LOW);
          valor = valor * 10 + (entrada - '0');    //acumula os digitos
          lcd.setCursor((i + 10), 1);
-         lcd.print(entrada);              
+         lcd.print(entrada);
          hor2 = valor;                            //A entrada dos dois dígitos é o valor por hora
-        
+
           }
 
         lcd.setCursor((13), 1);                  //escreve o separador ":"
         lcd.print(":");
 
-        valor = 0; 
+        valor = 0;
 
         for (i = 1; i <= 2; i++){
           entrada = teclado.waitForKey();
           digitalWrite(buzzer, HIGH);
-          delay(tempoBuzz); 
+          delay(tempoBuzz);
           digitalWrite(buzzer, LOW);
           valor = valor * 10 + (entrada - '0');
           lcd.setCursor((i + 13), 1);
@@ -157,14 +157,14 @@ void horarios(){
           if (hor2 > 23 || min2 > 59){        //compara a hora errada
             lcd.clear();
             lcd.setCursor(0, 0);
-            lcd.print("Hora errada"); 
-            delay(1200);            
+            lcd.print("Hora errada");
+            delay(1200);
             }
 
             else {
               erro = 0;
-            }            
-      
+            }
+
       }
 
       guardaHora[k] = hor2;
@@ -175,16 +175,16 @@ void horarios(){
       lcd.print("   Horario #" + String(k));
       lcd.setCursor(0, 1);
       lcd.print("    Guardado");
-      delay(1200);    
-    }  
-  
+      delay(1200);
+    }
+
   }
 
 
 
 
 //-----------pega a quantidade de ração------------------
-  
+
 void racao(){
 
     erro = 1;
@@ -200,7 +200,7 @@ void racao(){
       delay(tempoBuzz);                        //tempo do buzzer acionado
       digitalWrite(buzzer, LOW);                //desliga o buzzer
       lcd.print(entrada);                     //mostra o valor digitado nas teclas
-      delay(100); 
+      delay(100);
       c = entrada - '0';                      //converte o valor de entrada e guarda na variavel C a "quantidade de vezes que deve alimentar o animal"
 
 
@@ -211,53 +211,53 @@ void racao(){
          lcd.print("Salvo");          //mostra a mensagem para o usuario que foi salvo
          lcd.setCursor(1, 1);
          lcd.print((String(c)) + " Racao");
-         delay(1200);        
+         delay(1200);
        }
 
-       else{                            //caso tenha algum erro, marca como verdadeiro e repete o processo                       
-        lcd.clear();      
+       else{                            //caso tenha algum erro, marca como verdadeiro e repete o processo
+        lcd.clear();
         lcd.setCursor(0, 0);
         lcd.print(" Num 0 invalido");
         delay(1200);
-        
-        }       
-     
-      }   
+
+        }
+
+      }
 
     }
 
 void liberaRacao(){
       lcd.clear();
       DateTime now = rtc.now();           //pega a hora atual
-      hor1 = now.hour();                  //  atribui os valores das horas e minutos nas variaveis 
+      hor1 = now.hour();                  //  atribui os valores das horas e minutos nas variaveis
       min1 = now.minute();                //
 
       for (k = 1; k <= c; k++){           // verifica todos os horarios
-        
+
          if ((hor1 == guardaHora[k]) && (min1 == guardaMin[k])){        //compara o horario atual com o horario que foi digitado para liberar a ração
-               analogWrite(led, 255);                                   //liga o led, informando que esta sendo liberado a ração     
-               lcd.setCursor(0,0);      
+               analogWrite(led, 255);                                   //liga o led, informando que esta sendo liberado a ração
+               lcd.setCursor(0,0);
                lcd.write("Liberando");                                 //informa no lcd que esta liberando a ração
                servo1.write(100);                                      //faz o servo girar para 100°
                delay(6000);                                            //tempo que o servo fica para o angulo
                servo1.write(55);                                       //volta o servo para o inicio
                lcd.clear();
                analogWrite(led, 0);                                    //desliga o led
-              
-              
+
+
 
               while ((hor1 == guardaHora[k]) && (min1 == guardaMin[k])){        //condição para saber se continuamos ao mesmo tempo que foi liberado a ração
 
                 standby();                                                      //evita que a ração seja liberada mais de uma vez no mesmo tempo
-                
-                } 
-          }          
-       } 
+
+                }
+          }
+       }
       }
 
 void standby(){
 
-        DateTime now = rtc.now();               //Se obtienen los valores de la hora y minutos actuales
+        DateTime now = rtc.now();               //hora e minutos atuais
         hor1 = now.hour();
         min1 = now.minute();
         seg1= now.second();
@@ -267,18 +267,18 @@ void standby(){
           lcd.print("Hora:");
           lcd.setCursor(8, 0);
           hor1 = now.hour();
-          
+
           if (hor1 < 10) {
           lcd.print("0");
           lcd.setCursor(9, 0);
-          }       
+          }
           lcd.print(hor1);
           lcd.setCursor(10, 0);
           lcd.print(":") ;
           lcd.setCursor(11, 0);
           min1 = now.minute();
 
-          
+
           if (min1 < 10) {
             lcd.print("0");
             lcd.setCursor(12, 0);
@@ -289,11 +289,11 @@ void standby(){
           lcd.setCursor(14, 0);
           seg1 = now.second();
 
-          
+
           if (seg1 < 10) {
             lcd.print("0");
             lcd.setCursor(15, 0);
-          }          
+          }
           lcd.print(seg1);
 
           lcd.setCursor(0, 1);
@@ -301,7 +301,7 @@ void standby(){
           lcd.setCursor(11, 1);
           if (guardaHora[l] < 10) {
             lcd.print("0");
-            lcd.setCursor(12, 1);            
+            lcd.setCursor(12, 1);
           }
 
           lcd.print(guardaHora[l]);
@@ -315,7 +315,7 @@ void standby(){
           lcd.print(guardaMin[l]);
           delay(900);
         }
- }        
+ }
 
 
 void msg(){
@@ -326,11 +326,5 @@ void msg(){
   lcd.setCursor(0, 1);
   lcd.print("   para  pets");
   delay(1200);
-   
+
 }
-        
-  
-
-
-
-  
